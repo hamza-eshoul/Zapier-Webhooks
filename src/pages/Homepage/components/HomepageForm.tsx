@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { BeatLoader } from "react-spinners";
 
 interface FormData {
