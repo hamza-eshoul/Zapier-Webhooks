@@ -29,27 +29,32 @@ const HomepageForm = () => {
       lesson_objectives: data.lesson_objectives[0],
     };
 
-    setIsLoading(false);
-
     const zapier_webhook_url =
       "https://hooks.zapier.com/hooks/catch/19449540/22bzko3/";
 
     try {
-      const response = await axios.post(zapier_webhook_url, formattedData);
+      const response = await fetch(zapier_webhook_url, {
+        method: "POST",
+        body: JSON.stringify(formattedData),
+      });
 
-      if (response.status === 200) {
+      if (response.ok) {
         toast.success(
-          "The form was submitted successfully ! Ed Pulse thanks you for taking the time to fill it out."
+          "The form was submitted successfully! Ed Pulse thanks you for taking the time to fill it out."
         );
-        reset();
+        reset(); // Assuming reset is a function to clear form data
+      } else {
+        throw new Error(
+          "We encountered an error while submitting the form. Please try again later."
+        );
       }
-    } catch (error: any) {
-      console.log("ERROR", error);
+    } catch (error) {
+      console.error("ERROR", error);
       toast.error(
         "We encountered an error while submitting the form. Please try again later."
       );
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Assuming you're managing loading state with setIsLoading
     }
   };
 
